@@ -1,0 +1,19 @@
+[Unit]
+Description=Corvus - Email recipient validation milter
+After=network.target redis.service
+
+[Service]
+Type=simple
+User=corvus
+Group=corvus
+WorkingDirectory=/opt/corvus
+Environment="VALIDATOR_URL=http://127.0.0.1:8080"
+Environment="VALKEY_HOST=127.0.0.1"
+Environment="VALKEY_PORT=6379"
+Environment="BYPASS_DOMAINS="
+ExecStart=/opt/corvus/venv/bin/python3 /opt/corvus/validator_milter.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
